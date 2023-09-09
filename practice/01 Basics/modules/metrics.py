@@ -22,7 +22,7 @@ def ED_distance(ts1, ts2):
     ed_dist = 0
 
     # INSERT YOUR CODE
-    
+    h=0
     return ed_dist
 
 
