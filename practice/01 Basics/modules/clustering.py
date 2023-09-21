@@ -57,6 +57,9 @@ class TimeSeriesHierarchicalClustering:
 
         return linkage_matrix
 
+    @property
+    def linkage_matrix(self):
+      return self._create_linkage_matrix()
 
     def fit(self, distance_matrix):
         """
@@ -73,9 +76,10 @@ class TimeSeriesHierarchicalClustering:
             The fitted model.
         """
 
-         # INSERT YOUR CODE
-          
+        self.model = AgglomerativeClustering(compute_distances=True).fit(distance_matrix)
         return self
+          
+       
 
 
     def _draw_timeseries_allclust(self, dx, labels, leaves, gs, ts_hspace):
