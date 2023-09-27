@@ -47,14 +47,13 @@ def norm_ED_distance(ts1, ts2):
 
     norm_ed_dist = 0
 
-
     avg_ts1 = np.mean(ts1)
     avg_ts2 = np.mean(ts2)
 
     std_ts1 = np.std(ts1)
     std_ts2 = np.std(ts2)
 
-    T1T2 = ts1.dot(ts2)
+    T1T2 = np.array(ts1).dot(np.array(ts2))
     drob = (T1T2-avg_ts1*avg_ts2*len(ts1))/(std_ts1*std_ts2*len(ts1))
 
     norm_ed_dist = abs(2*len(ts1)*(1-drob))**0.5
