@@ -134,13 +134,13 @@ class NaiveBestMatchFinder(BestMatchFinder):
 
     def perform(self):
         """
-        Perform the best match finder using the naive algorithm.
+        Выполните поиск лучшего совпадения, используя наивный алгоритм.
         
         Returns
         -------
         best_match_results: dict
-            Dictionary containing results of the naive algorithm.
-        """
+             Словарь, содержащий результаты наивного алгоритма.
+        """ 
         N, m = self.ts_data.shape
         
         bsf = float("inf")
@@ -150,7 +150,24 @@ class NaiveBestMatchFinder(BestMatchFinder):
         else:
             excl_zone = int(np.ceil(m / self.excl_zone_denom))
         
-        # INSERT YOUR CODE
+        #best_match_results = {}
+        dist_list = []
+        query_data = z_normalize(self.query)
+        for i in range(N-m+1):
+          query_subsequence = self.ts_data[i]
+          query_subsequence = z_normalize(query_subsequence)
+          dist= DTW_distance(query_subsequence, query_data)
+
+          if dist < bsf:
+            #print(f"i = {i}, dist = {dist}")
+            dist_list.append(dist)
+            #best_match_results['distance'] = dist
+            #best_match_results['index'] = i
+            self.bestmatch = super()._top_k_match(dist_list, m, bsf, excl_zone )
+            if len(self.bestmatch['index'])==self.top_k:
+              bsf = self.bestmatch['distance'][self.top_k-1]
+          else:
+            dist_list.append(np.inf)
 
         return self.bestmatch
 
