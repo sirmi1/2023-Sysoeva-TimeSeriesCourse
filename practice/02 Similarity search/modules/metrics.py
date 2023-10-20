@@ -86,27 +86,28 @@ def DTW_distance(ts1, ts2, r=0.05):
 
     r = int(np.round(r*len(ts1)))
 
-    N, M = sum(ts1.shape), sum(ts2.shape)
-    dist_mat=np.zeros((N,M))
+    N, M = len(ts1), len(ts2)
+
+    dist_mat=np.zeros((N, M))
     for i in range(N):
       start_j = max(1, i-r)-1
-      end_j = min(len(ts1),i+r)-1
+      end_j = min(len(ts1),i+r)
       for j in range(start_j, end_j):
-        dist_mat[i,j] = (ts1[i]- ts2[j])**2
+        dist_mat[i,j] = (ts1[i] - ts2[j])**2
 
-    N,M=dist_mat.shape
-    D_mat = np.zeros((N+1,M+1))
+    D_mat = np.zeros((N+1, M+1))
     for i in range(1,N+1):
         D_mat[i,0]=np.inf
     for i in range(1,M+1):
         D_mat[0,i]=np.inf
 
-    for i in range(1,N+1):
+    for i in range(1, N+1):
       start_j = max(1, i-r)
-      end_j = min(len(ts1),i+r)
+      end_j = min(M, i+r)+1
 
-      for j in range(start_j,end_j):
-        D_mat[i][j] = dist_mat[i-1][j-1]+min(D_mat[i-1][j],D_mat[i,j-1],D_mat[i-1][j-1])
+      for j in range(start_j, end_j):
+        D_mat[i][j] = dist_mat[i-1][j-1] + min(D_mat[i-1][j], D_mat[i,j-1], D_mat[i-1][j-1])
+  
     return  D_mat[N][M]
 
     
