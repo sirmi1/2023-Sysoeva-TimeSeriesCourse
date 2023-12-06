@@ -33,6 +33,11 @@ def compute_mp(ts1, m, exclusion_zone=None, ts2=None):
     """
     
     # INSERT YOUR CODE
+    #if exclusion_zone is not None:
+      #config.STUMPY_EXCL_ZONE_DENOM = exclusion_zone
+    #else: config.STUMPY_EXCL_ZONE_DENOM = np.inf
+    #if ts2 != None: ts2 = ts2.astype(float)
+    #mp = stumpy.stump(ts1.astype(float),  m,  ts2, ignore_trivial = ignore_trivial)
     mp = stumpy.stump(ts1, m, ts2)
 
     return {'mp': mp[:, 0],
@@ -41,3 +46,4 @@ def compute_mp(ts1, m, exclusion_zone=None, ts2=None):
             'excl_zone': exclusion_zone,
             'data': {'ts1' : ts1, 'ts2' : ts2}
             }
+  
